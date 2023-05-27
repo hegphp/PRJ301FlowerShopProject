@@ -5,11 +5,98 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Web bán hoa online</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                margin: 0;
+                background: rgb(217,115,167);
+                background: linear-gradient(90deg, rgba(217,115,167,1) 0%, rgba(0,212,255,1) 100%);
+            }
+            
+            a:visited {
+                color: blue;
+            }
+            
+            /*header*/
+            
+            .header {
+                display: flex;
+                margin: 0 10vh;
+                height: 10vh;
+            }
+            
+            .header-left {
+                width: 20%;
+            }
+            
+            .header-left img {
+                height: 100%;
+            }
+            
+            /*header center*/
+            
+            .header-center {
+                width: 60%;
+                display: flex;
+                align-items: center;
+            }
+            
+            .header-center form {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                height: 30%;
+            }
+            
+            .searchbar {
+                width: 80%;
+            }
+            
+            /*header right*/
+            .header-right {
+                width: 20%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+        <!--head-->
+        <div class="header">
+            <!--left-->
+            <div class="header-left">
+                <a href="./">
+                <!--logo-->
+                <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
+                </a>
+            </div>
+            <!--center-->
+            <div class="header-center">
+                <!--searchbar-->
+                <form>
+                    <input type="text" class="searchbar">
+                    <input type="submit">
+                </form>
+            </div>
+            <!--right-->
+            <div class="header-right">
+                <!--login-->
+                <a href="">Ðăng nhập</a>
+                <!--register-->
+                <a href="">Đăng kí</a>
+                <!--Shopping list-->
+                <a href="">Giỏ hàng</a>
+            </div>
+        </div>
+        <!--content-->
+        <div id="body">
+            <!--navbar-->
+            <!--content-->
+        </div>
+        <!--footer-->
+        <div id="footer"></div>
     </body>
 </html>
