@@ -13,7 +13,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 margin: 0;
                 background: rgb(234,216,224);
                 background: radial-gradient(circle, rgba(234,216,224,1) 30%, rgba(58,148,254,1) 100%);
-                height: 130vh;
             }
             
             a:visited {
@@ -80,11 +79,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 display: flex;
                 position: sticky;
                 top: 0;
+                z-index: 1;
             }
             
             .navbar li {
                 width: 25%;
                 text-align: center;
+            }
+            
+            .navbar li#category {
+                width: 100%;
             }
             
             .navbar li a {
@@ -96,6 +100,83 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             .navbar li a:hover {  
                 background-color: #58257b;  
                 color: white;
+            }
+            
+            /*category list*/
+            
+            .navbar ul{
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 200px;
+                display: none;
+                background-color: #e9d8f4;
+            }
+            
+            #category-list {
+                width: 25vw;
+            }
+            
+            #category{
+                width: 100%;
+            }
+            
+            #category a {
+                width: 100%;
+            }
+            
+            .navbar ul li a{
+                display: block;
+                width: 60px;
+            }
+            
+            .navbar li:hover ul{
+                display: block;
+            }
+            
+            /*content*/
+            .content {
+                margin: 1vh 10vh 0 10vh;
+                display: flex;
+                flex-wrap: wrap;
+                overflow: hidden;
+                position: relative;
+                z-index: 0;
+            }
+            
+            .content-object {
+                width: 25%;
+/*                margin-left: 1vw;
+                margin-right: 1vw;*/
+                padding: 0 1vw;
+                box-sizing: border-box;
+                display: block;
+            }
+            
+            .content-object img {
+                margin-top: 2em;
+                height: 80%;
+                width: 100%;
+            }
+            /*object description*/
+            .object-desc {
+                height: 20%;
+                text-align: center;
+            }
+            
+            /*footer*/
+            #footer {
+                height: 100px;
+                background-color: mediumorchid;
+                color: white;
+                display: flex;
+                justify-content: center;
+            }
+            
+            #footer h4{
+                text-align: center;
+                display: flex;
+                align-items: center;
             }
         </style>
     </head>
@@ -114,13 +195,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <!--searchbar-->
                 <form>
                     <input type="text" class="searchbar" placeholder="Tìm kiếm hoa tại đây">
-                    <input type="submit">
+                    <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
             <!--right-->
             <div class="header-right">
                 <!--login-->
-                <a href="">Ðăng nhập</a>
+                <a href="./login">Ðăng nhập</a>
                 <!--register-->
                 <a href="">Đăng kí</a>
                 <!--Shopping list-->
@@ -131,14 +212,101 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div id="body-webpage">
             <!--navbar-->
             <ul class="navbar">
-                <li><a href="./">Trang chủ</a></li>
-                <li><a href="">Danh mục sản phẩm</a></li>
+                <li><a href="./">Danh mục sản phẩm</a>
+                    <ul id="category-list">
+                        <li id="category"><a>Hoa cao cấp</a></li>
+                        <li id="category"><a>Hoa kỉ niệm</a></li>
+                        <li id="category"><a>Hoa khai trương</a></li>
+                        <li id="category"><a>Hoa tang lễ</a></li>
+                        <li id="category"><a>Hoa sinh nhật</a></li>
+                        <li id="category"><a>Hoa tình yêu</a></li>
+                        <li id="category"><a>Hoa cưới</a></li>
+                        <li id="category"><a>Lẵng hoa</a></li>
+                        <li id="category"><a>Hoa sự kiện</a></li>
+                        <li id="category"><a>Hoa bó</a></li>
+                        <li id="category"><a>Hoa tang lễ</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Trang chủ</a></li>
                 <li><a href="">Giới thiệu</a></li>
                 <li><a href="">Liên hệ</a></li>
             </ul>
             <!--content-->
+            <div class="content">
+                <!--object list-->
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+                <!--object list-->
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--footer-->
-        <div id="footer"></div>
+        <div id="footer">
+            <h4>Copyright by Hồng Việt Bùi</h4>
+        </div>
     </body>
 </html>
