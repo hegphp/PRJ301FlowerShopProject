@@ -16,6 +16,20 @@ public class Bouquet {
     private String discount;
     private String imageUrl;
     private String quantity;
-    
+    private String bouquetTypeId;
+
+    public Bouquet() {
+    }
+
+    public Bouquet(String bouquetId, String bouquetName, String desc, String price, String discount, String imageUrl, String quantity, String bouquetTypeId) {
+        this.bouquetId = bouquetId;
+        this.bouquetName = bouquetName;
+        this.desc = desc;
+        this.price = price;
+        this.discount = discount;
+        this.imageUrl = imageUrl;
+        this.quantity = quantity;
+        this.bouquetTypeId = bouquetTypeId;
+    }
     
 }

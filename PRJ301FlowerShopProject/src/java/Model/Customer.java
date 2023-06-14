@@ -20,9 +20,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String id, String password) {
+    public Customer(String id, String password, String phoneNumber, String address, String firstName, String lastName, String email) {
         this.id = id;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public String getId() {

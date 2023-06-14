@@ -1,8 +1,11 @@
+<%-- 
+    Document   : index
+    Created on : Jun 14, 2023, 9:05:59 PM
+    Author     : Lenovo
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
         <title>Web bán hoa online</title>
@@ -184,6 +187,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </style>
     </head>
     <body>
+        <%
+            String account = "";
+            if(request.getAttribute("account")!=null){
+                account = (String)request.getAttribute("account");
+            }
+        %>
         <!--head-->
         <div class="header">
             <!--left-->
@@ -204,9 +213,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <!--right-->
             <div class="header-right">
                 <!--login-->
-                <a href="./login">Ðăng nhập</a>
+                <a href="./login">Xin chào: <%=account%></a> 
                 <!--register-->
-                <a href="./register">Đăng kí</a>
+                <a href="./">Thoát</a>
                 <!--Shopping list-->
                 <a href="">Giỏ hàng</a>
             </div>
@@ -277,3 +286,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
     </body>
 </html>
+
+<!--note
+
+- Nên tìm hiểu về session để thuận tiện cho việc lưu một phiên, tạo điều kiện cho người dùng đỡ phải đăng nhập đi đăng nhập lại nhiều lần
+
+-->
