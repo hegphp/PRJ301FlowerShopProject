@@ -8,7 +8,6 @@ package Model;
  *
  * @author Lenovo
  */
-public class BouquetType {
-    private String typeId;
-    private String typeName;
+public class FlowerPlant {
+    
 }

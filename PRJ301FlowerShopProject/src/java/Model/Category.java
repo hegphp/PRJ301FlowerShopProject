@@ -8,10 +8,7 @@ package Model;
  *
  * @author Lenovo
  */
-public class OrderDetails {
-    private String orderId;
-    private String productId;
-    private String unitPrice;
-    private float quantity;
-    private float discount; 
+public class Category {
+    int cateId;
+    String cateName;
 }

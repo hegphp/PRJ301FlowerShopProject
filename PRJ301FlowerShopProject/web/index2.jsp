@@ -4,7 +4,9 @@
     Author     : Lenovo
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="Model.Employee"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Model.Bouquet"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,22 +14,24 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="Resource/css/index.css">
-        <link rel="stylesheet" href="Resource/css/register.css">
-    </head> 
+    </head>
     <body>
         <%
             String account = "";
-            if(request.getAttribute("account")!=null){
-                account = (String)request.getAttribute("account");
+            if(session.getAttribute("user") instanceof Employee){
+                Employee emp = (Employee) session.getAttribute("user");
+                account = emp.getEmpAccount();
             }
+            
+//            ArrayList<Bouquet> 
         %>
         <!--head-->
         <div class="header">
             <!--left-->
             <div class="header-left">
                 <a href="./homepage">
-                    <!--logo-->
-                    <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
+                <!--logo-->
+                <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
                 </a>
             </div>
             <!--center-->
@@ -41,9 +45,9 @@
             <!--right-->
             <div class="header-right">
                 <!--login-->
-                <a href="./login">Đăng nhập</a>
+                <a href="user?account=<%=account%>">Xin chào <%=account%></a>
                 <!--register-->
-                <a href="./user?register=1">Đăng kí</a>
+                <a href="user?logout=1">Thoát</a>
                 <!--Shopping list-->
                 <a href="">Giỏ hàng</a>
             </div>
@@ -71,50 +75,42 @@
                 <li><a href="">Liên hệ</a></li>
             </ul>
             <!--content-->
-            <div class="content">
-                <h1>Đăng kí</h1>
-                <form action="user" method="post">
-                    <input type ="hidden" name="register">
-                    <div class="form-row">
-                        <label for="accountInput">Tài khoản</label>
-                        <input type="text" name="accountInput" id="accountInput">
+            <div class="content" id="content">
+                <!--object list-->
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
                     </div>
-                    <div class="form-row">
-                        <label for="passwordInput">Mật khẩu</label>
-                        <input type="password" name="passwordInput" id="passwordInput">
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
                     </div>
-                    <div class="form-row">
-                        <label for="phoneInput">Số điện thoại</label>
-                        <input type="text" id="phoneInput" name="phoneInput" oninput="validatePhoneInput()">
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
                     </div>
-                    <div class="form-row">
-                        <label for="firstNameInput">First name:</label>
-                        <input type="text" name="firstNameInput">
+                </div>
+                <div class="content-object">
+                    <a href="">
+                    <img src="Resource/object-image/Image1.png" alt="Ảnh 1">
+                    </a>
+                    <div class="object-desc">
+                        <p><a href="">Đây chỉ là một dòng chữ bình thường</a></p>
                     </div>
-                    <div class="form-row">
-                        <label for="lastNameInput">Last name:</label>
-                        <input type="text" name="lastNameInput">
-                    </div>
-                    <div class="form-row">
-                        <label for="addressInput">Địa chỉ:</label>
-                        <input type="text" name="addressInput">
-                    </div>
-                    <div class="form-row">
-                        <label for="emailInput">Email:</label>
-                        <input type="email" name="emailInput">
-                    </div>
-                    <div class="form-row">
-                        <input type="submit" value="Đăng kí">
-                    </div>
-                </form>
-                <br>
-                <% String errorMessage = "";
-                   if(request.getAttribute("errorMessage") != null)
-                       errorMessage = (String)request.getAttribute("errorMessage");
-                   out.print("<p>" + errorMessage + "</p>");
-                %>
+                </div>
             </div>
-
+            <!--khi admin hoặc người dùng truy cập thành công-->
         </div>
         <!--footer-->
         <div id="footer">

@@ -4,78 +4,90 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author Lenovo
  */
 public class Customer {
-    private String id;
-    private String password;
-    private String phoneNumber;
-    private String address;
-    private String firstName;
-    private String lastName;
+    private String customerId;
+    private String customerPassword;
+    private String customerPhone;
+    private String customerAddress;
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerGender;
     private String email;
 
     public Customer() {
     }
 
-    public Customer(String id, String password, String phoneNumber, String address, String firstName, String lastName, String email) {
-        this.id = id;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer(String customerId, String customerPassword, String customerPhone, String customerAddress, String customerFirstName, String customerLastName, String customerGender, String email) {
+        this.customerId = customerId;
+        this.customerPassword = customerPassword;
+        this.customerPhone = customerPhone;
+        this.customerAddress = customerAddress;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
+        this.customerGender = customerGender;
         this.email = email;
     }
 
-    public String getId() {
-        return id;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCustomerPassword(String customerPassword) {
+        this.customerPassword = customerPassword;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getCustomerFirstName() {
+        return customerFirstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setCustomerFirstName(String customerFirstName) {
+        this.customerFirstName = customerFirstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getCustomerLastName() {
+        return customerLastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCustomerLastName(String customerLastName) {
+        this.customerLastName = customerLastName;
+    }
+
+    public String getCustomerGender() {
+        return customerGender;
+    }
+
+    public void setCustomerGender(String customerGender) {
+        this.customerGender = customerGender;
     }
 
     public String getEmail() {
@@ -85,5 +97,4 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

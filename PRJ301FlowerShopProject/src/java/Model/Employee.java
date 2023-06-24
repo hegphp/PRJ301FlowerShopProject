@@ -4,89 +4,108 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author Lenovo
  */
 public class Employee {
-    private String id;
-    private String password;
-    private String phoneNumber;
-    private String address;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String role;
+    private String empId;
+    private String empPassword;
+    private String empPhone;
+    private String empAddress;
+    private String empFirstName;
+    private String empLastName;
+    private String empGender;
+    private String empEmail;
+    private String empRole;
 
     public Employee() {
     }
 
-    public Employee(String id, String password) {
-        this.id = id;
-        this.password = password;
+    public Employee(String empId, String empPassword, String empPhone, String empAddress, String empFirstName, String empLastName, String empGender, String empEmail, String empRole) {
+        this.empId = empId;
+        this.empPassword = empPassword;
+        this.empPhone = empPhone;
+        this.empAddress = empAddress;
+        this.empFirstName = empFirstName;
+        this.empLastName = empLastName;
+        this.empGender = empGender;
+        this.empEmail = empEmail;
+        this.empRole = empRole;
     }
 
-    public String getId() {
-        return id;
+    public String getEmpId() {
+        return empId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmpPassword() {
+        return empPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmpPassword(String empPassword) {
+        this.empPassword = empPassword;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getEmpPhone() {
+        return empPhone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmpPhone(String empPhone) {
+        this.empPhone = empPhone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmpAddress() {
+        return empAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmpAddress(String empAddress) {
+        this.empAddress = empAddress;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getEmpFirstName() {
+        return empFirstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setEmpFirstName(String empFirstName) {
+        this.empFirstName = empFirstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmpLastName() {
+        return empLastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setEmpLastName(String empLastName) {
+        this.empLastName = empLastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmpGender() {
+        return empGender;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmpGender(String empGender) {
+        this.empGender = empGender;
     }
 
-    public String getRole() {
-        return role;
+    public String getEmpEmail() {
+        return empEmail;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEmpEmail(String empEmail) {
+        this.empEmail = empEmail;
     }
+
+    public String getEmpRole() {
+        return empRole;
+    }
+
+    public void setEmpRole(String empRole) {
+        this.empRole = empRole;
+    }
+    
 }

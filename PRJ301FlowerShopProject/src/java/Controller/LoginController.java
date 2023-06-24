@@ -1,102 +1,141 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package Controller;
 
-import DAL.DALCustomer;
-import DAL.DALEmployee;
+import DAL.DAOBouquet;
+import DAL.DAOCustomer;
+import DAL.DAOEmployee;
+import DAL.DAOFlower;
 import Model.Customer;
+import Model.Employee;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Lenovo
  */
 public class LoginController extends HttpServlet {
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        Support Vietnamese font
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=UTF-8");
-        //Check if user want to login or not
-        if (req.getParameter("login") != null) {
-            DAL.DALEmployee dalEmployee = new DALEmployee();
-            DAL.DALCustomer dalCustomer = new DALCustomer();
-            String account = req.getParameter("account");
-            String password = req.getParameter("password");
-            try ( PrintWriter out = resp.getWriter()) {
-                out.print("account = " + account);
-                out.print("<br>password = " + password);
-                //Check if the user is staff or employee or not
-                if (account.equals("admin") || account.startsWith("emp_")) {
-                    //check the login is valid or not
-                    if (dalEmployee.checkLogin(account, password)) {
-                        req.setAttribute("login", 1);
-                        req.setAttribute("account",account);
-                        req.getRequestDispatcher("index.jsp").forward(req,resp);
-                    } else {
-                        System.out.println("Dang nhap employee that bai");
-                        String errorMessage = "Đăng nhập thất bại";
-                        req.setAttribute("errorMessage", errorMessage);
-                        req.getRequestDispatcher("Login.jsp").forward(req, resp);
-                    }
-                //If the user is employee
-                } else {
-                    //check the login is valid or not
-                    if(dalCustomer.checkLogin(account, password)){
-                        req.setAttribute("login", 1);
-                        req.setAttribute("account",account);
-                        req.getRequestDispatcher("index.jsp").forward(req,resp);
-                    }else{
-                        System.out.println("Dang nhap Customer that bai");
-                        String errorMessage = "Đăng nhập thất bại";
-                        req.setAttribute("errorMessage", errorMessage);
-                        req.getRequestDispatcher("Login.jsp").forward(req, resp);
-                    }
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet LoginController</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet LoginController at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        //Check if user want to register new account or not
-        if (req.getParameter("register") != null) {
-            try {
-                Customer newCustomer = new Customer(String.valueOf(req.getParameter("accountInput")),String.valueOf(req.getParameter("passwordInput")),String.valueOf(req.getParameter("phoneInput")),
-                        String.valueOf(req.getParameter("addressInput")),String.valueOf(req.getParameter("firstNameInput")),String.valueOf(req.getParameter("lastNameInput")),String.valueOf(req.getParameter("emailInput")));
-                DALCustomer dalCustomer = new DALCustomer();
-                //check if user registed successfully or not
-                if(dalCustomer.addCustomer(newCustomer)){
-//                    String errorMessage = "Đăng kí thành công";
-                    req.setAttribute("login", 1);
-                    req.setAttribute("account",newCustomer.getId());
-                    req.getRequestDispatcher("index.jsp").forward(req,resp);
+    } 
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
+    } 
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        String errorMessage = "";
+        DAOEmployee daoEmp = new DAOEmployee();
+        DAOCustomer daoCus = new DAOCustomer();
+        DAOFlower daoFlower = new DAOFlower();
+        DAOBouquet daoBouquet = new DAOBouquet();
+        try{
+            //check if User login is Employee or not
+            if(!request.getParameter("account").isEmpty()&&
+                    (request.getParameter("account").startsWith("emp")||request.getParameter("account").equals("admin"))){
+                //Check if the user typed valid account and password or not
+                if(daoEmp.checkLogin(request.getParameter("account"), request.getParameter("password"))){
+                    //import user info
+                    Employee newEmp = daoEmp.getEmployeeById(request.getParameter("account"));
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", newEmp);
+                    //import Bouquet info
+                    request.setAttribute("bouquetList", daoBouquet.getBouquetList());
+                    //import Flower info
+                    request.setAttribute("flowerList", daoFlower.getFlowerList());
+                    //import Employee info
+                    request.setAttribute("empList", daoEmp.getEmployeeList());
+                    request.getRequestDispatcher("index3.jsp").forward(request, response);
+                    return;
                 }else{
-                    String errorMessage = "Đăng kí thất bại";
-                    req.setAttribute("errorMessage", errorMessage);
-                    req.getRequestDispatcher("Register.jsp").forward(req, resp);
+                    errorMessage = "Đăng nhập thất bại, tài khoản hoặc mật khẩu không hợp lệ!";
+                    request.setAttribute("errorMessage", errorMessage);
+                    request.getRequestDispatcher("Login.jsp").forward(request, response);
+                    return;
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            //check if the account or password is empty or not
+            }else if(request.getParameter("account").isEmpty()||request.getParameter("password").isEmpty()){
+                System.out.println("TH2");
+                errorMessage = "Đăng nhập thất bại, tài khoản hoặc mật khẩu không hợp lệ!";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+                return;
+            //If user is Customer
+            }else{
+                if(daoCus.checkLogin(request.getParameter("account"), request.getParameter("password"))){
+                    Customer newCus = daoCus.getCustomerById(request.getParameter("account"));
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", newCus);
+                    request.getRequestDispatcher("index2.jsp").forward(request, response);
+                    return;
+                }else{
+                    errorMessage = "Đăng nhập thất bại, tài khoản hoặc mật khẩu không hợp lệ!";
+                    request.setAttribute("errorMessage", errorMessage);
+                    request.getRequestDispatcher("Login.jsp").forward(request, response);
+                    return;
+                }
             }
+        }catch(Exception ex){
+            System.out.println("LoginController-doPost:"+ex.getMessage());
         }
     }
 
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        Support Vietnamese font
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=UTF-8");
-    }
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }

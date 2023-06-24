@@ -11,180 +11,7 @@
         <title>Web bán hoa online</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body {
-                margin: 0;
-                background: rgb(234,216,224);
-                background: radial-gradient(circle, rgba(234,216,224,1) 30%, rgba(58,148,254,1) 100%);
-            }
-            
-            a:visited {
-                color: blue;
-            }
-            
-            /*header*/
-            
-            .header {
-                display: flex;
-                margin: 0 10vh;
-                height: 10vh;
-            }
-            
-            .header-left {
-                width: 20%;
-            }
-            
-            .header-left img {
-                height: 100%;
-            }
-            
-            /*header center*/
-            
-            .header-center {
-                width: 60%;
-                display: flex;
-                align-items: center;
-            }
-            
-            .header-center form {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                height: 30%;
-            }
-            
-            .searchbar {
-                width: 80%;
-            }
-            
-            /*header right*/
-            .header-right {
-                width: 20%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            /*body*/
-            
-            #body-webpage {
-            }
-            
-            .navbar {
-                /*remove the excess*/
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                color: white;
-                width: 100%;
-                height: 34.4px;
-                background-color: #e9d8f4;
-                display: flex;
-                position: sticky;
-                top: 0;
-                z-index: 1;
-            }
-            
-            .navbar li {
-                width: 25%;
-                text-align: center;
-            }
-            
-            .navbar li#category {
-                width: 100%;
-            }
-            
-            .navbar li a {
-                padding: 8px;
-                display: block;
-                text-decoration: none;
-            }
-            
-            .navbar li a:hover {  
-                background-color: #58257b;  
-                color: white;
-            }
-            
-            /*category list*/
-            
-            .navbar ul{
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                width: 200px;
-                display: none;
-                background-color: #e9d8f4;
-            }
-            
-            #category-list {
-                width: 25vw;
-            }
-            
-            #category{
-                width: 100%;
-            }
-            
-            #category a {
-                width: 100%;
-            }
-            
-            .navbar ul li a{
-                display: block;
-                width: 60px;
-            }
-            
-            .navbar li:hover ul{
-                display: block;
-            }
-            /*Body*/
-            #body-webpage {
-                height:80vh;
-            }
-            /*content*/
-            .content {
-                margin: 1vh 10vh 0 10vh;
-                display: flex;
-                flex-wrap: wrap;
-                overflow: hidden;
-                position: relative;
-                z-index: 0;
-            }
-            
-            .content-object {
-                width: 25%;
-/*                margin-left: 1vw;
-                margin-right: 1vw;*/
-                padding: 0 1vw;
-                box-sizing: border-box;
-                display: block;
-            }
-            
-            .content-object img {
-                margin-top: 2em;
-                height: 80%;
-                width: 100%;
-            }
-            /*object description*/
-            .object-desc {
-                height: 20%;
-                text-align: center;
-            }
-            
-            /*footer*/
-            #footer {
-                height: 10vh;
-                background-color: mediumorchid;
-                color: white;
-                display: flex;
-                justify-content: center;
-            }
-            
-            #footer h4{
-                text-align: center;
-                display: flex;
-                align-items: center;
-            }
-        </style>
+        <link rel="stylesheet" href="Resource/css/index.css">
     </head>
     <body>
         <%
@@ -197,7 +24,7 @@
         <div class="header">
             <!--left-->
             <div class="header-left">
-                <a href="./">
+                <a href="./homepage">
                 <!--logo-->
                 <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
                 </a>
@@ -213,9 +40,9 @@
             <!--right-->
             <div class="header-right">
                 <!--login-->
-                <a href="./login">Xin chào: <%=account%></a> 
+                <a href="login">Đăng nhập</a>
                 <!--register-->
-                <a href="./">Thoát</a>
+                <a href="user?register=1">Đăng kí</a>
                 <!--Shopping list-->
                 <a href="">Giỏ hàng</a>
             </div>
@@ -236,15 +63,14 @@
                         <li id="category"><a>Lẵng hoa</a></li>
                         <li id="category"><a>Hoa sự kiện</a></li>
                         <li id="category"><a>Hoa bó</a></li>
-                        <li id="category"><a>Hoa tang lễ</a></li>
                     </ul>
                 </li>
-                <li><a href="">Trang chủ</a></li>
+                <li><a href="./homepage">Trang chủ</a></li>
                 <li><a href="">Giới thiệu</a></li>
                 <li><a href="">Liên hệ</a></li>
             </ul>
             <!--content-->
-            <div class="content">
+            <div class="content" id="content">
                 <!--object list-->
                 <div class="content-object">
                     <a href="">
@@ -279,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            <!--khi admin hoặc người dùng truy cập thành công-->
         </div>
         <!--footer-->
         <div id="footer">
@@ -290,5 +117,9 @@
 <!--note
 
 - Nên tìm hiểu về session để thuận tiện cho việc lưu một phiên, tạo điều kiện cho người dùng đỡ phải đăng nhập đi đăng nhập lại nhiều lần
-
+- JSP thiếu vài trường hợp kiểm tra tài khoản đăng kí có hợp lệ hay không
+- Add data cho Flower, Bouquet...
+- Tìm hiểu về cách thêm photo
+- Thêm tính chất undo, redo
+- File JSP không tuân thủ tính chất view trong mô hình MVC, nên làm lại
 -->
