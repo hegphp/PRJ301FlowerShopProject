@@ -17,13 +17,13 @@ public class Customer {
     private String customerAddress;
     private String customerFirstName;
     private String customerLastName;
-    private String customerGender;
+    private int customerGender;
     private String email;
 
     public Customer() {
     }
 
-    public Customer(String customerId, String customerPassword, String customerPhone, String customerAddress, String customerFirstName, String customerLastName, String customerGender, String email) {
+    public Customer(String customerId, String customerPassword, String customerPhone, String customerAddress, String customerFirstName, String customerLastName, int customerGender, String email) {
         this.customerId = customerId;
         this.customerPassword = customerPassword;
         this.customerPhone = customerPhone;
@@ -82,11 +82,11 @@ public class Customer {
         this.customerLastName = customerLastName;
     }
 
-    public String getCustomerGender() {
+    public int getCustomerGender() {
         return customerGender;
     }
 
-    public void setCustomerGender(String customerGender) {
+    public void setCustomerGender(int customerGender) {
         this.customerGender = customerGender;
     }
 

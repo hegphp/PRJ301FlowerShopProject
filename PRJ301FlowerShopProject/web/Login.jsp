@@ -4,6 +4,7 @@
     Author     : Lenovo
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,7 +26,7 @@
         <div class="header">
             <!--left-->
             <div class="header-left">
-                <a href="./homepage">
+                <a href="./Homepage">
                 <!--logo-->
                 <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
                 </a>
@@ -33,8 +34,8 @@
             <!--center-->
             <div class="header-center">
                 <!--searchbar-->
-                <form>
-                    <input type="text" class="searchbar" placeholder="Tìm kiếm hoa tại đây">
+                <form action="search" method="get">
+                    <input type="text" name='bouquetName' class="searchbar" placeholder="Tìm kiếm hoa tại đây">
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
@@ -45,28 +46,21 @@
                 <!--register-->
                 <a href="./user?register=1">Đăng kí</a>
                 <!--Shopping list-->
-                <a href="">Giỏ hàng</a>
+                <a href="./login">Giỏ hàng</a>
             </div>
         </div>
         <!--content-->
         <div id="body-webpage">
             <!--navbar-->
             <ul class="navbar">
-                <li><a href="./">Danh mục sản phẩm</a>
+                <li><a href="./Homepage">Danh mục sản phẩm</a>
                     <ul id="category-list">
-                        <li id="category"><a>Hoa cao cấp</a></li>
-                        <li id="category"><a>Hoa kỉ niệm</a></li>
-                        <li id="category"><a>Hoa khai trương</a></li>
-                        <li id="category"><a>Hoa tang lễ</a></li>
-                        <li id="category"><a>Hoa sinh nhật</a></li>
-                        <li id="category"><a>Hoa tình yêu</a></li>
-                        <li id="category"><a>Hoa cưới</a></li>
-                        <li id="category"><a>Lẵng hoa</a></li>
-                        <li id="category"><a>Hoa sự kiện</a></li>
-                        <li id="category"><a>Hoa bó</a></li>
+                        <c:forEach items="${bouquetTypeList}" var="item">
+                            <li id="category"><a href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a></li>
+                        </c:forEach>
                     </ul>
                 </li>
-                <li><a href="./homepage">Trang chủ</a></li>
+                <li><a href="./Homepage">Trang chủ</a></li>
                 <li><a href="">Giới thiệu</a></li>
                 <li><a href="">Liên hệ</a></li>
             </ul>

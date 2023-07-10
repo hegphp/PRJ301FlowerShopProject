@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="admin?showBouquetList=1" class="nav-link active">
+                    <a href="admin?showBouquetList=1" class="nav-link link-dark">
                         <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
                         Bouquet
                     </a>
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="admin?info=1" class="nav-link link-dark">
+                    <a href="admin?info=1" class="nav-link active">
                         <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
                         Thông tin cá nhân
                     </a>
@@ -70,45 +70,19 @@
         </div>
         <div class="col-md-9">
             <!--show account info-->
-            <h1 class="text-center">BouquetList</h1>
-            <!--searchbar-->
-            <form action="search" class="row" method="get">
-                <div class="col-md-3"></div>
-                <input class="col-md-5" type="text" name='bouquetName' class="searchbar" placeholder="Tìm kiếm hoa tại đây" value="${bouquetName}">
-                <button class="col-md-1" type="submit">Tìm kiếm</button>
-            </form>
-            <!--display Bouquet List-->
-            <form id="bouquetForm" action="BouquetController" method="post">
-                <table class="table">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th>price</th>
-                        <th>discount</th>
-                        <th>imageUrl</th>
-                        <th>quantity</th>
-                        <th>isDisplayed</th>
-                    </tr>
-                    <c:forEach items="${bouquetList}" var="item">
-                        <tr>
-                            <td>${item.getBouquetId()}</td>
-                            <td>${item.getBouquetName()}</td>
-                            <td>${bouquetTypeMap.get(item.getBouquetType())}</td>
-                            <td>${item.getBouquetDesc()}</td>
-                            <td>${item.getBouquetPrice()}</td>
-                            <td>${item.getBouquetDiscount()}</td>
-                            <td><img src="${item.getBouquetImageUrl()}" alt="alt"/></td>
-                            <td>${item.getBouquetQuantity()}</td>
-                            <td>${item.isDisplayed()}</td>
-                            <td><a href="BouquetController?update=1&id=${item.getBouquetId()}">Update</a></td>
-                            <td><a href="#" onclick="deleteBouquet('${item.getBouquetId()}'); return false;">Delete</a></td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </form>
-        </div>
+            <h1>Account info:</h1>
+            <h3>Id: ${user.getEmpId()}</h3>
+            <h3>Phone: ${user.getEmpPhone()}</h3>
+            <h3>Address: ${user.getEmpAddress()}</h3>
+            <h3>FirstName: ${user.getEmpFirstName()}</h3>
+            <h3>LastName: ${user.getEmpLastName()}</h3>
+            <h3>Gender: ${user.getEmpGender()}</h3>
+            <h3>Email: ${user.getEmpEmail()}</h3>
+            <h3>Role: ${user.getEmpRole()}</h3>
+            <div class="row">
+            <a class="col-md-2" href="Homepage" class="nav-link">Về trang chủ</a>
+            <a class="col-md-1" href="user?logout=1" class="nav-link">Thoát</a>
+            </div>
         <script>
             //deleteBouquet
             function deleteBouquet(bouquetId) {

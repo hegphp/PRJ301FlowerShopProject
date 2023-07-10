@@ -31,7 +31,6 @@ public class DBContext {
             String url = "jdbc:sqlserver://localhost:1433;databaseName=FlowerShop";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Connected");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Lenovo
  */
-public class FlowerController extends HttpServlet {
+public class CartController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +33,10 @@ public class FlowerController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FlowerController</title>");  
+            out.println("<title>Servlet CartController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FlowerController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CartController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,7 +53,7 @@ public class FlowerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("Cart.jsp").forward(request, response);
     } 
 
     /** 

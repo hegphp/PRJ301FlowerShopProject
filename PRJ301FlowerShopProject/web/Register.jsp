@@ -1,9 +1,10 @@
-<%-- 
+  <%-- 
     Document   : index
     Created on : Jun 14, 2023, 9:05:59 PM
     Author     : Lenovo
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +14,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="Resource/css/index.css">
         <link rel="stylesheet" href="Resource/css/register.css">
+        <style>
+            form {
+                width: 55%;
+            }
+
+            .form-row-right {
+                position: absolute;
+                right: 0;
+                width: 60%;
+                display: flex;
+            }
+
+            .form-row {
+                display: flex;
+                align-content: center;
+                position: relative;
+            }
+            
+            .form-row p {
+                position: absolute;
+                left: 40%;
+                margin: 0;
+            }
+            
+/*            .form-row input[type="radio"] {
+                position: absolute;
+                left: 10%;
+                margin: 0;
+            }*/
+            
+            .no-margin {
+                margin: 0;
+            }
+        </style>
     </head> 
     <body>
         <%
@@ -25,7 +60,7 @@
         <div class="header">
             <!--left-->
             <div class="header-left">
-                <a href="./homepage">
+                <a href="./Homepage">
                     <!--logo-->
                     <img src="Resource/hoadepcom-logos.jpeg" alt="logo">
                 </a>
@@ -33,8 +68,8 @@
             <!--center-->
             <div class="header-center">
                 <!--searchbar-->
-                <form>
-                    <input type="text" class="searchbar" placeholder="Tìm kiếm hoa tại đây">
+                <form action="search" method="get">
+                    <input type="text" name='bouquetName' class="searchbar" placeholder="Tìm kiếm hoa tại đây">
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
@@ -52,23 +87,16 @@
         <div id="body-webpage">
             <!--navbar-->
             <ul class="navbar">
-                <li><a href="./">Danh mục sản phẩm</a>
+                <li><a href="./Homepage">Danh mục sản phẩm</a>
                     <ul id="category-list">
-                        <li id="category"><a>Hoa cao cấp</a></li>
-                        <li id="category"><a>Hoa kỉ niệm</a></li>
-                        <li id="category"><a>Hoa khai trương</a></li>
-                        <li id="category"><a>Hoa tang lễ</a></li>
-                        <li id="category"><a>Hoa sinh nhật</a></li>
-                        <li id="category"><a>Hoa tình yêu</a></li>
-                        <li id="category"><a>Hoa cưới</a></li>
-                        <li id="category"><a>Lẵng hoa</a></li>
-                        <li id="category"><a>Hoa sự kiện</a></li>
-                        <li id="category"><a>Hoa bó</a></li>
+                        <c:forEach items="${bouquetTypeList}" var="item">
+                            <li id="category"><a href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a></li>
+                        </c:forEach>
                     </ul>
                 </li>
-                <li><a href="./homepage">Trang chủ</a></li>
-                <li><a href="">Giới thiệu</a></li>
-                <li><a href="">Liên hệ</a></li>
+                <li><a href="./Homepage">Trang chủ</a></li>
+                <li><a href="./Homepage">Giới thiệu</a></li>
+                <li><a href="./Homepage">Liên hệ</a></li>
             </ul>
             <!--content-->
             <div class="content">
@@ -84,8 +112,8 @@
                         <input type="password" name="passwordInput" id="passwordInput">
                     </div>
                     <div class="form-row">
-                        <label for="phoneInput">Số điện thoại</label>
-                        <input type="text" id="phoneInput" name="phoneInput" oninput="validatePhoneInput()">
+                        <label for="repassword">Nhập lại mật khẩu</label><br>
+                        <input type="password" id="repassword" name="repassword" style="width:60%">
                     </div>
                     <div class="form-row">
                         <label for="firstNameInput">First name:</label>
@@ -94,6 +122,19 @@
                     <div class="form-row">
                         <label for="lastNameInput">Last name:</label>
                         <input type="text" name="lastNameInput">
+                    </div>
+                    <div class="form-row" style="margin: 0">
+                        <label for="genderInput">Giới tính:</label>
+                        <input type='radio' id='genderInput' name='genderInput' value='1'>
+                        <p>Nam</p>
+                    </div>
+                    <div class="form-row" style="margin: 0">
+                        <input type='radio' id='genderInput' name='genderInput' value='0'>
+                        <p>Nữ</p><br>
+                    </div>
+                    <div class="form-row">
+                        <label for="phoneInput">Số điện thoại</label>
+                        <input type="text" id="phoneInput" name="phoneInput" oninput="validatePhoneInput()">
                     </div>
                     <div class="form-row">
                         <label for="addressInput">Địa chỉ:</label>

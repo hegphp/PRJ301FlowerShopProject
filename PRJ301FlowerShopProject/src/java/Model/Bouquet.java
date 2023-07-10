@@ -17,11 +17,12 @@ public class Bouquet {
     private float bouquetDiscount;
     private String bouquetImageUrl;
     private int bouquetQuantity;
+    private boolean displayed;
 
     public Bouquet() {
     }
 
-    public Bouquet(String bouquetId, String bouquetName, int bouquetType, String bouquetDesc, float bouquetPrice, float bouquetDiscount, String bouquetImageUrl, int bouquetQuantity) {
+    public Bouquet(String bouquetId, String bouquetName, int bouquetType, String bouquetDesc, float bouquetPrice, float bouquetDiscount, String bouquetImageUrl, int bouquetQuantity, boolean displayed) {
         this.bouquetId = bouquetId;
         this.bouquetName = bouquetName;
         this.bouquetType = bouquetType;
@@ -30,6 +31,15 @@ public class Bouquet {
         this.bouquetDiscount = bouquetDiscount;
         this.bouquetImageUrl = bouquetImageUrl;
         this.bouquetQuantity = bouquetQuantity;
+        this.displayed = displayed;
+    }
+
+    public boolean isDisplayed() {
+        return displayed;
+    }
+
+    public void setDisplayed(boolean displayed) {
+        this.displayed = displayed;
     }
 
     public int getBouquetType() {
