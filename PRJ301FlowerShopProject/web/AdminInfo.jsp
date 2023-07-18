@@ -83,26 +83,5 @@
             <a class="col-md-2" href="Homepage" class="nav-link">Về trang chủ</a>
             <a class="col-md-1" href="user?logout=1" class="nav-link">Thoát</a>
             </div>
-        <script>
-            //deleteBouquet
-            function deleteBouquet(bouquetId) {
-                let form = document.getElementById("bouquetForm");
-                form.method = 'post';
-                form.action = 'BouquetController';
-                //create bouquetId input        
-                let input = document.createElement('input');
-                input.value = bouquetId;
-                input.type = 'hidden';
-                input.name = 'bouquetId';
-                form.appendChild(input);
-                //create delete input        
-                input = document.createElement('input');
-                input.value = '1';
-                input.name = 'delete';
-                input.type = 'hidden';
-                form.appendChild(input);
-                form.submit();
-            }
-        </script>
     </body>
 </html>

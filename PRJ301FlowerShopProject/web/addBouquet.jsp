@@ -71,18 +71,19 @@
         <div class="col-md-9">
             <h1 class="text-center">Add new Bouquet</h1>
             <div class="row">
-                <form class="form-group" action="BouquetController" method="post" id="form">
+                <form class="form-group" action="BouquetController" method="post" id="form" enctype="multipart/form-data">
+                    <input type="hidden" name="add" value="1">
                     <div class="input-group mb-3" id="id">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >BouquetId:</span>
+                            <span class="input-group-text">BouquetId:</span>
                         </div>
-                        <input aria-label="BouquetId:" class="form-control" type="text" name="bouquetId">
+                        <input aria-label="BouquetId:" class="form-control" value="${bouquetId}" type="text" name="bouquetId">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >Name:</span>
                         </div>
-                        <input class="form-control" type="text" name="bouquetName" id="bouquetName">
+                        <input class="form-control" type="text" name="bouquetName" id="bouquetName" value="${bouquetName}">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -91,33 +92,50 @@
                         <select class="form-select" id="inputGroupSelect01" name="bouquetTypeId">
                             <option value="0" selected>Chọn loại hoa</option>
                             <c:forEach items="${bouquetTypeList}" var="item">
-                                <option value="${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</option>
+                                <c:choose>
+                                    <c:when test="${item.getBouquetTypeId()==bouquetTypeId}">
+                                        <option value="${item.getBouquetTypeId()}" selected>${item.getBouquetTypeName()}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</option>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend input-group-text">Description:</span>
-                        <textarea class="form-control" name="bouquetDescription"></textarea>
+                        <textarea class="form-control" name="bouquetDescription">${bouquetDescription}</textarea>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend input-group-text">Price:</span>
-                        <input class="form-control" type="number" step="0.01" name="bouquetPrice">
+                        <input class="form-control" type="number" step="0.01" name="bouquetPrice" value="${bouquetPrice}">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend input-group-text">Discount:</span>
-                        <input class="form-control" type="number" name="bouquetDiscount" step="0.01">
+                        <input class="form-control" type="number" name="bouquetDiscount" step="0.01" value="${bouquetDiscount}">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend input-group-text">BouquetImageUrl:</span>
-                        <input class="form-control" type="text" name="bouquetImageUrl">
+                        <input class="form-control" type="text" name="bouquetImageUrl" placeholder="Nhập đường dẫn tới ảnh hoặc upload img" value="${bouquetImageUrl}">
+                        <input class="form-control" type="file" name="fileInput" accept="image/*">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-prepend input-group-text">Quantity:</span>
-                        <input class="form-control" type="number" name="bouquetQuantity">
+                        <input class="form-control" type="number" name="bouquetQuantity" value="${bouquetQuantity}">
                     </div>
                     <div class="form-check">
                         <span class="form-check-label">isDisplayed</span>
-                        <input type='checkbox' class="form-check-input" name='isDisplayed'>
+                        <c:choose>
+                            <c:when test="${isDisplayed eq 'true'}">
+                                <input type='checkbox' class="form-check-input" checked onchange="changeInputValue('isDisplayed')">
+                                <input type="hidden" name="isDisplayed" value="true" name="isDisplayed" id="isDisplayed">
+                            </c:when>
+                            <c:otherwise>
+                                <input type='checkbox' class="form-check-input" onchange="changeInputValue('isDisplayed')">
+                                <input type="hidden" name="isDisplayed" value="false" name="isDisplayed" id="isDisplayed">
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="d-flex flex-row justify-content-center">
                         <button type="submit" class="btn btn-primary">Add Bouquet</button>
@@ -126,5 +144,14 @@
                 <p class="border-0 alert alert-light text-danger" role="alert">${errorMessage}</p>
             </div>
         </div>
+            <script>
+                function changeInputValue(input){
+                    let inputValue = document.getElementById(input).value;
+                    if(inputValue === 'false'){
+                        document.getElementById(input).value = 'true';
+                    }else
+                        document.getElementById(input).value = 'false';
+                }
+            </script>
     </body>
 </html>

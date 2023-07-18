@@ -62,9 +62,9 @@ public class HomepageController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             //check if user login or not
-            if (session.getAttribute("user") == null||session==null) {
+            if (session==null||session.getAttribute("user") == null) {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
                 //import bouquet Type list
@@ -72,7 +72,7 @@ public class HomepageController extends HttpServlet {
                 //import daoBouquet
                 request.setAttribute("daoBouquet", daoBouquet);
 
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("index4.jsp").forward(request, response);
             } else {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
@@ -81,11 +81,11 @@ public class HomepageController extends HttpServlet {
                 //import bouquet type list
                 request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
                 //import Bouquet info
-                request.setAttribute("bouquetList", daoBouquet.getBouquetList());
+                request.setAttribute("bouquetList", daoBouquet.getBouquetDisplayedList());
                 //import bouquetDAO
                 request.setAttribute("daoBouquet", daoBouquet);
 
-                request.getRequestDispatcher("index2.jsp").forward(request, response);
+                request.getRequestDispatcher("index4.jsp").forward(request, response);
             }
 
         } catch (SQLException ex) {
@@ -105,9 +105,9 @@ public class HomepageController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             //check if user login or not
-            if (session.getAttribute("user") == null) {
+            if (session==null||session.getAttribute("user") == null) {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
                 //import bouquet Type list
@@ -115,7 +115,7 @@ public class HomepageController extends HttpServlet {
                 //import daoBouquet
                 request.setAttribute("daoBouquet", daoBouquet);
 
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("index4.jsp").forward(request, response);
             } else {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
@@ -128,7 +128,7 @@ public class HomepageController extends HttpServlet {
                 //import bouquetDAO
                 request.setAttribute("daoBouquet", daoBouquet);
 
-                request.getRequestDispatcher("index2.jsp").forward(request, response);
+                request.getRequestDispatcher("index4.jsp").forward(request, response);
             }
 
         } catch (SQLException ex) {

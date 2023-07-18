@@ -147,7 +147,14 @@
                                 <div class="object-desc">
                                     <p><a href="">
                                             ${i.getBouquetName()}</a><br>
-                                        Giá: ${i.getBouquetPrice()}$<br>
+                                            <c:choose>
+                                                <c:when test="${i.getBouquetDiscount()==0}">
+                                                    Giá: ${i.getBouquetPrice()}$<br>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Giá: <span style="text-decoration: line-through">$${i.getBouquetPrice()}</span>$${Math.round(i.getBouquetPrice()*(1-i.getBouquetDiscount())*100)/100}<br>
+                                                </c:otherwise>
+                                            </c:choose>
                                         Số lượng: ${i.getBouquetQuantity()}</p>
                                 </div>
                             </div>

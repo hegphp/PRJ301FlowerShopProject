@@ -75,4 +75,29 @@ public class DAOCustomer extends DBContext {
         }
         return false;
     }
+
+    public boolean checkEmailExist(String email) throws SQLException {
+        String sql = "Select * from Customer\n" +
+            "where email = ?";
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setString(1, email);
+        ResultSet rs = pre.executeQuery();
+        while(rs.next()){
+            return true;
+        }
+        return false;
+    }
+    
+    public Customer getCustomerByEmail(String email) throws SQLException{
+        String sql = "Select * from Customer\n" +
+            "where email = ?";
+        PreparedStatement pre = connection.prepareStatement(sql);
+        pre.setString(1, email);
+        ResultSet rs = pre.executeQuery();
+        while(rs.next()){
+            return new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8));
+        }
+        return null;
+    }
 }

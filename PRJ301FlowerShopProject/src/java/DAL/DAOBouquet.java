@@ -128,6 +128,7 @@ public class DAOBouquet extends DBContext {
         //Access every value of database
         for(int i=0;i<list.size();i++){
             bouquetName = UnicodeConverter.UnicodeToAscii(list.get(i).getBouquetName());
+            //check if bouquetName contains input value or not
             if(bouquetName.contains(name)){
                 output.add(list.get(i));
             }
@@ -136,7 +137,7 @@ public class DAOBouquet extends DBContext {
     }
     
     //Get display checked Bouquet
-    public ArrayList<Bouquet> getBouquetDisplayedList(int typeId) throws SQLException{
+    public ArrayList<Bouquet> getBouquetDisplayedListById(int typeId) throws SQLException{
         ArrayList<Bouquet> list = new ArrayList<>();
         String sql = "Select *\n" +
             "from Bouquet\n" +
@@ -144,6 +145,21 @@ public class DAOBouquet extends DBContext {
             "and isDisplayed = 1";
         PreparedStatement pre = connection.prepareStatement(sql);
         pre.setInt(1, typeId);
+        ResultSet rs = pre.executeQuery();
+        //Access every elements of the Bouquet
+        while(rs.next()){
+            list.add(new Bouquet(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4),
+                    rs.getFloat(5), rs.getFloat(6), rs.getString(7), rs.getInt(8), rs.getBoolean(9)));
+        }
+        return list;
+    }
+    
+    public ArrayList<Bouquet> getBouquetDisplayedList() throws SQLException{
+        ArrayList<Bouquet> list = new ArrayList<>();
+        String sql = "Select *\n" +
+            "from Bouquet\n" +
+            "where isDisplayed = 1";
+        PreparedStatement pre = connection.prepareStatement(sql);
         ResultSet rs = pre.executeQuery();
         //Access every elements of the Bouquet
         while(rs.next()){

@@ -13,15 +13,24 @@ import Model.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@MultipartConfig(
+        fileSizeThreshold = 2048,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 50
+)
 /**
  *
  * @author Lenovo
@@ -66,7 +75,7 @@ public class BouquetController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
+        try ( PrintWriter out = response.getWriter()) {
             //Display bouquet Info
             if (request.getParameter("info") != null) {
                 HttpSession session = request.getSession(false);
@@ -91,13 +100,11 @@ public class BouquetController extends HttpServlet {
                 HttpSession session = request.getSession(false);
                 //check user is login or not
                 if (session == null || session.getAttribute("user") == null) {
-                    request.getRequestDispatcher("login").forward(request, response);
+                    out.print("You are not allowed to enter this page");
                     return;
                     //check if user is admin or not
                 } else if (session.getAttribute("user") instanceof Customer) {
-                    try ( PrintWriter out = response.getWriter()) {
-                        out.print("You are not allowed to enter this page!");
-                    }
+                    out.print("You are not allowed to enter this page!");
                     return;
                 }
 
@@ -110,15 +117,11 @@ public class BouquetController extends HttpServlet {
                 HttpSession session = request.getSession(false);
                 //check the user is logined or not
                 if (session == null || session.getAttribute("user") == null) {
-                    try ( PrintWriter out = response.getWriter()) {
-                        out.print("You are not allowed to enter this page!");
-                    }
+                    out.print("You are not allowed to enter this page!");
                     return;
                     //check if the user is admin or not
                 } else if (session.getAttribute("user") instanceof Customer) {
-                    try ( PrintWriter out = response.getWriter()) {
-                        out.print("You are not allowed to enter this page!");
-                    }
+                    out.print("You are not allowed to enter this page!");
                     return;
                 }
                 //import bouquet Type List
@@ -165,24 +168,7 @@ public class BouquetController extends HttpServlet {
 
             //check if admin want to update or not
             if (request.getParameter("update") != null) {       //Update Bouquet
-                //check if user typed empty value or not
-                if (request.getParameter("bouquetId") == null || request.getParameter("bouquetId").isEmpty()
-                        || request.getParameter("bouquetName") == null || request.getParameter("bouquetName").isEmpty()
-                        || request.getParameter("bouquetTypeId") == null || request.getParameter("bouquetTypeId").isEmpty()
-                        || request.getParameter("bouquetDescription") == null || request.getParameter("bouquetDescription").isEmpty()
-                        || request.getParameter("bouquetPrice") == null || request.getParameter("bouquetPrice").isEmpty()
-                        || request.getParameter("bouquetDiscount") == null || request.getParameter("bouquetDiscount").isEmpty()
-                        || request.getParameter("bouquetImageUrl") == null || request.getParameter("bouquetImageUrl").isEmpty()
-                        || request.getParameter("bouquetQuantity") == null || request.getParameter("bouquetQuantity").isEmpty()) {
-                    String errorMessage = "Error: Empty String!";
-                    request.setAttribute("errorMessage", errorMessage);
-
-                    //import bouquet Type List
-                    request.setAttribute("bouquetTypeList", daoBouquetType.getBouquetTypeList());
-                    //import Bouquet Info
-                    Bouquet newBouquet = daoBouquet.getBouquetById(request.getParameter("id"));
-                    request.setAttribute("bouquetInfo", newBouquet);
-                    request.getRequestDispatcher("UpdateBouquet.jsp").forward(request, response);
+                if(!checkValid(request, response)){
                     return;
                 }
 
@@ -193,7 +179,12 @@ public class BouquetController extends HttpServlet {
                 newBouquet.setBouquetDesc(request.getParameter("bouquetDescription"));
                 newBouquet.setBouquetPrice(Float.parseFloat(request.getParameter("bouquetPrice")));
                 newBouquet.setBouquetDiscount(Float.parseFloat(request.getParameter("bouquetDiscount")));
-                newBouquet.setBouquetImageUrl(request.getParameter("bouquetImageUrl"));
+                //check if the file is upload or not
+                if (request.getPart("fileInput") != null && request.getPart("fileInput").getSize() != 0) {
+                    uploadFile(request, response, newBouquet);
+                } else {
+                    newBouquet.setBouquetImageUrl(request.getParameter("bouquetImageUrl"));
+                }
                 newBouquet.setBouquetQuantity(Integer.parseInt(request.getParameter("bouquetQuantity")));
 
                 newBouquet.setDisplayed(request.getParameter("isDisplayed") != null);
@@ -205,33 +196,7 @@ public class BouquetController extends HttpServlet {
                 daoBouquet.deleteBouquetById(id);
 
             } else {                                              //Add Bouquet
-                //check if user typed empty value or not
-                if (request.getParameter("bouquetId") == null || request.getParameter("bouquetId").isEmpty()
-                        || request.getParameter("bouquetName") == null || request.getParameter("bouquetName").isEmpty()
-                        || request.getParameter("bouquetTypeId") == null || request.getParameter("bouquetTypeId").isEmpty()
-                        || request.getParameter("bouquetDescription") == null || request.getParameter("bouquetDescription").isEmpty()
-                        || request.getParameter("bouquetPrice") == null || request.getParameter("bouquetPrice").isEmpty()
-                        || request.getParameter("bouquetDiscount") == null || request.getParameter("bouquetDiscount").isEmpty()
-                        || request.getParameter("bouquetImageUrl") == null || request.getParameter("bouquetImageUrl").isEmpty()
-                        || request.getParameter("bouquetQuantity") == null || request.getParameter("bouquetQuantity").isEmpty()) {
-                    String errorMessage = "Error: Empty String!";
-                    request.setAttribute("errorMessage", errorMessage);
-
-                    //import bouquet Type List
-                    DAOBouquetType daoType = new DAOBouquetType();
-                    request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
-                    request.getRequestDispatcher("addBouquet.jsp").forward(request, response);
-                    return;
-                }
-                //check if Bouquet id is duplicate or not
-                if(daoBouquet.checkExistBouquetId(request.getParameter("bouquetId"))){
-                    String errorMessage = "Error: Duplicate Id!";
-                    request.setAttribute("errorMessage", errorMessage);
-
-                    //import bouquet Type List
-                    DAOBouquetType daoType = new DAOBouquetType();
-                    request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
-                    request.getRequestDispatcher("addBouquet.jsp").forward(request, response);
+                if(!checkValid(request, response)){
                     return;
                 }
 
@@ -242,7 +207,12 @@ public class BouquetController extends HttpServlet {
                 newBouquet.setBouquetDesc(request.getParameter("bouquetDescription"));
                 newBouquet.setBouquetPrice(Float.parseFloat(request.getParameter("bouquetPrice")));
                 newBouquet.setBouquetDiscount(Float.parseFloat(request.getParameter("bouquetDiscount")));
-                newBouquet.setBouquetImageUrl(request.getParameter("bouquetImageUrl"));
+                //check if the file is upload or not
+                if (request.getPart("fileInput") != null && request.getPart("fileInput").getSize() != 0) {
+                    uploadFile(request, response, newBouquet);
+                } else {
+                    newBouquet.setBouquetImageUrl(request.getParameter("bouquetImageUrl"));
+                }
                 newBouquet.setBouquetQuantity(Integer.parseInt(request.getParameter("bouquetQuantity")));
                 newBouquet.setDisplayed(request.getParameter("isDisplayed") != null);
 
@@ -251,6 +221,8 @@ public class BouquetController extends HttpServlet {
 
             response.sendRedirect("admin");
         } catch (SQLException ex) {
+            Logger.getLogger(BouquetController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(BouquetController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -265,4 +237,75 @@ public class BouquetController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void saveInfomation(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("bouquetId", request.getParameter("bouquetId"));
+        request.setAttribute("bouquetName", request.getParameter("bouquetName"));
+        request.setAttribute("bouquetTypeId", request.getParameter("bouquetTypeId"));
+        request.setAttribute("bouquetDescription", request.getParameter("bouquetDescription"));
+        request.setAttribute("bouquetPrice", request.getParameter("bouquetPrice"));
+        request.setAttribute("bouquetDiscount", request.getParameter("bouquetDiscount"));
+        request.setAttribute("bouquetImageUrl", request.getParameter("bouquetImageUrl"));
+        request.setAttribute("bouquetQuantity", request.getParameter("bouquetQuantity"));
+        request.setAttribute("isDisplayed", request.getParameter("isDisplayed"));
+    }
+
+    private void uploadFile(HttpServletRequest req, HttpServletResponse resp, Bouquet newBouquet) {
+        try {
+            Part part = req.getPart("fileInput");
+            String realPath = getInitParameter("fileUpload");
+            System.out.println(realPath);
+            String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+            newBouquet.setBouquetImageUrl("http://localhost:8080/PRJ301FlowerShopProject/Resource/object-image/" + part.getSubmittedFileName());
+            part.write(realPath + "/" + part.getSubmittedFileName());
+        } catch (Exception ex) {
+            Logger.getLogger(BouquetController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private boolean checkValid(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, Exception {
+        DAOBouquet daoBouquet = new DAOBouquet();
+        try {
+            //check if user typed empty value or not
+            if (request.getParameter("bouquetId") == null || request.getParameter("bouquetId").isEmpty()
+                    || request.getParameter("bouquetName") == null || request.getParameter("bouquetName").isEmpty()
+                    || request.getParameter("bouquetTypeId") == null || request.getParameter("bouquetTypeId").isEmpty()
+                    || request.getParameter("bouquetDescription") == null || request.getParameter("bouquetDescription").isEmpty()
+                    || request.getParameter("bouquetPrice") == null || request.getParameter("bouquetPrice").isEmpty()
+                    || request.getParameter("bouquetDiscount") == null || request.getParameter("bouquetDiscount").isEmpty()
+                    || ((request.getParameter("bouquetImageUrl") == null || request.getParameter("bouquetImageUrl").isEmpty()) && request.getPart("fileInput") == null)
+                    || request.getParameter("bouquetQuantity") == null || request.getParameter("bouquetQuantity").isEmpty()) {
+                throw new Exception("Error: Empty String!");
+            }
+            //check if Bouquet id is duplicate or not
+            if (request.getParameter("update")==null&&daoBouquet.checkExistBouquetId(request.getParameter("bouquetId"))) {
+                throw new Exception("Error: Duplicate Id!");
+            }
+            //check if admin choose 0 or not
+            if (request.getParameter("bouquetTypeId").equals("0")) {
+                throw new Exception("Error: You must select an Type option!");
+            }
+            float test = Float.parseFloat(request.getParameter("bouquetDiscount"));
+            //check if the discount is >= 1 and <0 or not
+            if (Float.parseFloat(request.getParameter("bouquetDiscount")) >= 1 || Float.parseFloat(request.getParameter("bouquetDiscount")) < 0) {
+                throw new Exception("Error: The discount must be positive and < 1");
+            }
+            return true;
+        } catch (Exception ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
+            //import bouquet Type List
+            DAOBouquetType daoType = new DAOBouquetType();
+            request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
+            saveInfomation(request, response);
+            if(request.getParameter("add")!=null)
+                request.getRequestDispatcher("addBouquet.jsp").forward(request, response);
+            else{
+                request.setAttribute("bouquetInfo", daoBouquet.getBouquetById(request.getParameter("bouquetId")));
+                request.getRequestDispatcher("UpdateBouquet.jsp").forward(request, response);
+            }
+            return false;
+        }
+    }
 }

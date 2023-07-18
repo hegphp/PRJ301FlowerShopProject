@@ -4,7 +4,9 @@
  */
 package Controller;
 
+import DAL.DAOCustomer;
 import DAL.GoogleUtils;
+import Model.Customer;
 import Model.GooglePojo;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -13,6 +15,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -64,18 +69,28 @@ public class LoginGoogle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        DAOCustomer daoCus = new DAOCustomer();
         String code = request.getParameter("code");
         if (code == null || code.isEmpty()) {
             RequestDispatcher dis = request.getRequestDispatcher("login.jsp");
             dis.forward(request, response);
         } else {
-            String accessToken = GoogleUtils.getToken(code);
-            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            request.setAttribute("id", googlePojo.getId());
-            request.setAttribute("name", googlePojo.getName());
-            request.setAttribute("email", googlePojo.getEmail());
-            RequestDispatcher dis = request.getRequestDispatcher("index3.jsp");
-            dis.forward(request, response);
+            try {
+                String accessToken = GoogleUtils.getToken(code);
+                GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+                
+                //check Id exist
+                if(daoCus.checkEmailExist(googlePojo.getEmail())){
+                    request.getSession().setAttribute("user", daoCus.getCustomerByEmail(googlePojo.getEmail()));
+                    response.sendRedirect("Homepage");
+                    return;
+                }else{
+                    request.setAttribute("email", googlePojo.getEmail());
+                }
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

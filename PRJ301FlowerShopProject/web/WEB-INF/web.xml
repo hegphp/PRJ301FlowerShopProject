@@ -19,6 +19,10 @@
     <servlet>
         <servlet-name>BouquetController</servlet-name>
         <servlet-class>Controller.BouquetController</servlet-class>
+        <init-param>
+            <param-name>fileUpload</param-name>
+            <param-value>C:\Users\Lenovo\Documents\GitHub\PRJ301FlowerShopProject\PRJ301FlowerShopProject\web\Resource\object-image</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>CartController</servlet-name>

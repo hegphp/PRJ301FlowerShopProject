@@ -15,14 +15,14 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </head>
-    <body class=".bg-light.bg-gradient min-vh-100">
+    <body class=".bg-light.bg-gradient">
         <div class="container">
             <div class="d-flex flex-warp align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
                 <a href="Homepage" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="Resource/hoadepcom-logos.jpeg" class="bi me-2" width="45" height="45">
                 </a>
                 <form action="search" method="get" class="input-group col-md-auto col-12 justify-content-center mb-2 mb-md-0 col-md-6 flex-fill">
-                    <input type="text" name='bouquetName' value="${bouquetName}" class="form-control" placeholder="Tìm kiếm hoa tại đây">
+                    <input type="text" name='bouquetName' class="form-control" placeholder="Tìm kiếm hoa tại đây">
                     <button type="submit" class="input-group-append btn btn-outline-secondary">
                         Tìm kiếm
                     </button>
@@ -82,27 +82,43 @@
         </div>
 
         <div class="container">
-            <h1 class="h1 text-center">Thông tin sản phẩm</h1>
-            <br>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class='col-md-4'>
-                    <img class="h-100 w-100" src='${bouquetInfo.getBouquetImageUrl()}'>
-                </div>
-                <div class='col-md-5'>
-                    <form>
-                        <h2>${bouquetInfo.getBouquetName()}</h2>
-                        <p>Giá: ${bouquetInfo.getBouquetPrice()}$</p>
-                        <p>Số lượng: <input type='number' id='quantity' max='${bouquetInfo.getBouquetQuantity()}'> (Số lượng tối đa: ${bouquetInfo.getBouquetQuantity()})</p>
-                        <p id="errorMessage" style="display: none; color: red;">Giá trị không hợp lệ!</p>
-                        <p>Thông tin sản phẩm:<br>${bouquetInfo.getBouquetDesc()}</p>
-                        <input class="btn btn-secondary" type='submit' value='Thêm vào giỏ hàng'>
-                        <input class="btn btn-secondary" type='submit' value='Đặt hàng'>
-                    </form>
-                </div>
-            </div>
+            <!--content-->
+            <c:forEach items="${bouquetTypeList}" var="item">
+                <c:if test="${!daoBouquet.getBouquetDisplayedListById(item.getBouquetTypeId()).isEmpty()}">
+                    <c:set value="0" var="count"></c:set>
+                    <h3 class="text-center mt-4 text-dark"><a class="h3 text-decoration-none" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a></h3>
+                        <c:forEach items="${daoBouquet.getBouquetDisplayedListById(item.getBouquetTypeId())}" var="i" varStatus="status">
+                            <c:if test="${count==0}">
+                            <div class="row">
+                            </c:if>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <a href="BouquetController?info=1&id=${i.getBouquetId()}"><img style="height: 14em" class="card-img-top w-100" src="${i.getBouquetImageUrl()}" alt="Card image cap"></a>
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center"><a class="text-primary text-decoration-none" href="BouquetController?info=1&id=${i.getBouquetId()}">${i.getBouquetName()}</a></h5>
+                                            <c:choose>
+                                                <c:when test="${i.getBouquetDiscount()==0}">
+                                                <p class="card-text text-center">Giá: $${i.getBouquetPrice()}</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p class="card-text text-center">Giá: <span style="text-decoration: line-through">$${i.getBouquetPrice()}</span> $${Math.round(i.getBouquetPrice()*(1-i.getBouquetDiscount())*100)/100}</p>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <div class="text-center">
+                                            <a href="BouquetController?info=1&id=${i.getBouquetId()}" class="btn btn-primary">Xem thông tin</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <c:if test="${count==3|| status.last}">
+                                <c:set value="0" var="count"></c:set>
+                                </div>
+                        </c:if>
+                        <c:set value="${count+1}" var="count"></c:set>
+                    </c:forEach>
+                </c:if>
+            </c:forEach>
         </div>
-        <div class="m-3"><br><br><br></div>
         <footer class="py-5 bg-dark mt-3 w-100">
             <h5 class="text-center text-light">Copyright by Hong Viet Bui</h5>
         </footer>

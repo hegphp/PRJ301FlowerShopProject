@@ -76,7 +76,7 @@
         </div>
         <div class="col-md-9">
             <h1 class="text-center">Update Bouquet</h1>
-            <form class="form-group" action="BouquetController" method="post" id="form">
+            <form class="form-group" action="BouquetController" method="post" id="form" enctype="multipart/form-data">
                 <div class="input-group mb-3" id="id">
                     <div class="input-group-prepend">
                         <span class="input-group-text" >BouquetId:</span>
@@ -120,7 +120,8 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend input-group-text">BouquetImageUrl:</span>
-                    <input class="form-control" type="text" name="bouquetImageUrl" value='${bouquetInfo.getBouquetImageUrl()}'>
+                    <input class="form-control" type="text" name="bouquetImageUrl" value='${bouquetInfo.getBouquetImageUrl()}' placeholder="Nhập đường dẫn tới ảnh hoặc upload img">
+                    <input class="form-control" type="file" name="fileInput" accept="image/*">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-prepend input-group-text">Quantity:</span>
@@ -129,12 +130,14 @@
                 <div class="form-check">
                     <span class="form-check-label">isDisplayed</span>
                     <c:choose>
-                        <c:when test="${bouquetInfo.isDisplayed()}">
-                            <input type='checkbox' class="form-check-input" checked name='isDisplayed'>
-                        </c:when>
-                        <c:otherwise>
-                            <input type='checkbox' class="form-check-input" name='isDisplayed'>
-                        </c:otherwise>
+                            <c:when test="${bouquetInfo.isDisplayed()}">
+                                <input type='checkbox' class="form-check-input" checked onchange="changeInputValue('isDisplayed')">
+                                <input type="hidden" name="isDisplayed" value="true" name="isDisplayed" id="isDisplayed">
+                            </c:when>
+                            <c:otherwise>
+                                <input type='checkbox' class="form-check-input" onchange="changeInputValue('isDisplayed')">
+                                <input type="hidden" name="isDisplayed" value="false" name="isDisplayed" id="isDisplayed">
+                            </c:otherwise>
                     </c:choose>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
@@ -143,5 +146,14 @@
             </form>
             <p class="border-0 alert alert-light text-danger" role="alert">${errorMessage}</p>
         </div>
+        <script>
+            function changeInputValue(input) {
+                let inputValue = document.getElementById(input).value;
+                if (inputValue === 'false') {
+                    document.getElementById(input).value = 'true';
+                } else
+                    document.getElementById(input).value = 'false';
+            }
+        </script>
     </body>
 </html>

@@ -85,7 +85,7 @@
         <div id="body-webpage">
             <!--navbar-->
             <ul class="navbar">
-                <li><a href="./Homepages">Danh mục sản phẩm</a>
+                <li><a href="./Homepage">Danh mục sản phẩm</a>
                     <ul id="category-list">
                         <c:forEach items="${bouquetTypeList}" var="item">
                             <li id="category"><a href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a></li>

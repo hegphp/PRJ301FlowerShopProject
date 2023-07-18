@@ -36,7 +36,7 @@ public class DAOBouquetType extends DBContext{
         return map;
     }
     //getBouquetNameById
-    public String getBouquetNameById(int id) throws SQLException{
+    public String getBouquetTypeNameById(int id) throws SQLException{
         String sql = "select * from BouquetType\n" +
             "where typeid = ?";
         PreparedStatement pre = connection.prepareStatement(sql);

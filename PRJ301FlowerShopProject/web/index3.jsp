@@ -11,22 +11,9 @@
 <html>
     <head>
         <title>index</title>
-        <style>
-            a:visited {
-                color: blue;
-            }
-
-            #deleteLink {
-                color: blue;
-                text-decoration: underline;
-            }
-
-            img {
-                max-width: 100%;
-                max-height: 100%;
-            }
-        </style>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </head>
     <body class="row">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-light col-md-3" style="width: 280px;">
@@ -73,23 +60,28 @@
             <h1 class="text-center">BouquetList</h1>
             <!--searchbar-->
             <form action="search" class="row" method="get">
-                <div class="col-md-3"></div>
-                <input class="col-md-5" type="text" name='bouquetName' class="searchbar" placeholder="Tìm kiếm hoa tại đây" value="${bouquetName}">
-                <button class="col-md-1" type="submit">Tìm kiếm</button>
+                <div class="col-md-3">
+                </div>
+                <div class="input-group">
+                    <input type="text" name='bouquetName' value="${bouquetName}" class="form-control" placeholder="Tìm kiếm hoa tại đây">
+                    <button type="submit" class="input-group-append btn btn-outline-secondary">
+                        Tìm kiếm
+                    </button>
+                </div>
             </form>
             <!--display Bouquet List-->
             <form id="bouquetForm" action="BouquetController" method="post">
-                <table class="table">
+                <table class="table" id="adminTable" data-toggle="table">
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Type</th>
+                        <th><a class="link-dark text-decoration-none" href="admin?idSort=${idSort}&bouquetName=${bouquetName}">Id</a></th>
+                        <th><a class="link-dark text-decoration-none" href="admin?nameSort=${nameSort}&bouquetName=${bouquetName}">Name</a></th>
+                        <th><a class="link-dark text-decoration-none" href="admin?typeSort=${typeSort}&bouquetName=${bouquetName}">Type</a></th>
                         <th>Description</th>
-                        <th>price</th>
-                        <th>discount</th>
+                        <th><a class="link-dark text-decoration-none" href="admin?priceSort=${priceSort}&bouquetName=${bouquetName}">price</a></th>
+                        <th><a class="link-dark text-decoration-none" href="admin?discountSort=${discountSort}&bouquetName=${bouquetName}">discount</a></th>
                         <th>imageUrl</th>
-                        <th>quantity</th>
-                        <th>isDisplayed</th>
+                        <th><a class="link-dark text-decoration-none" href="admin?quantitySort=${quantitySort}&bouquetName=${bouquetName}">quantity</a></th>
+                        <th><a class="link-dark text-decoration-none" href="admin?displayedSort=${displayedSort}&bouquetName=${bouquetName}">isDisplayed</a></th>
                     </tr>
                     <c:forEach items="${bouquetList}" var="item">
                         <tr>
@@ -99,7 +91,7 @@
                             <td>${item.getBouquetDesc()}</td>
                             <td>${item.getBouquetPrice()}</td>
                             <td>${item.getBouquetDiscount()}</td>
-                            <td><img src="${item.getBouquetImageUrl()}" alt="alt"/></td>
+                            <td><img class="w-100 h-100" src="${item.getBouquetImageUrl()}" alt="alt"/></td>
                             <td>${item.getBouquetQuantity()}</td>
                             <td>${item.isDisplayed()}</td>
                             <td><a href="BouquetController?update=1&id=${item.getBouquetId()}">Update</a></td>
@@ -130,5 +122,6 @@
                 form.submit();
             }
         </script>
+        
     </body>
 </html>

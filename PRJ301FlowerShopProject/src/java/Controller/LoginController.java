@@ -67,6 +67,13 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
+            //check if user already login or not
+            if(session.getAttribute("user")!=null){
+                response.sendRedirect("Homepage");
+                return;
+            }
+            
             DAOBouquetType daoBouquetType = new DAOBouquetType();
             //import bouquet type list
             request.setAttribute("bouquetTypeList", daoBouquetType.getBouquetTypeList());

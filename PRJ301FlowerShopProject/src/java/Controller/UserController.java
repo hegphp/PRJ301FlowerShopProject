@@ -70,13 +70,19 @@ public class UserController extends HttpServlet {
         DAOEmployee daoEmp = new DAOEmployee();
         //if user click logout
         if (request.getParameter("logout") != null) {
-            System.out.println("Logout thanh cong!");
             HttpSession session = request.getSession();
             session.removeAttribute("user");
             request.getRequestDispatcher("Homepage").forward(request, response);
         }
         //if user want to modify parameters
         if (request.getParameter("register") != null) {
+            HttpSession session = request.getSession();
+            //check if user already login or not
+            if(session.getAttribute("user")!=null){
+                response.sendRedirect("Homepage");
+                return;
+            }
+            
             try {
                 //import bouquet type list
                 request.setAttribute("bouquetTypeList", daoBouquetType.getBouquetTypeList());
@@ -148,6 +154,7 @@ public class UserController extends HttpServlet {
                     request.getRequestDispatcher("Register.jsp").forward(request, response);
                     return;
                 }
+                
                 //check password and repassword is the same or not
                 if (!request.getParameter("passwordInput").equals(request.getParameter("repassword"))) {
                     String errorMessage = "Error: Password and Repassword must be the same!";
@@ -208,4 +215,36 @@ public class UserController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    boolean checkRegisterValidate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try{
+            DAOCustomer daoCus = new DAOCustomer();
+                //check empty account or password
+                if (request.getParameter("accountInput").isEmpty() || request.getParameter("accountInput") == null
+                        || request.getParameter("passwordInput") == null || request.getParameter("passwordInput").isEmpty()
+                        || request.getParameter("repassword") == null || request.getParameter("repassword").isEmpty()) {
+                    throw new Exception("Error: Account or password is empty!");
+                }
+                
+                //check password and repassword is the same or not
+                if (!request.getParameter("passwordInput").equals(request.getParameter("repassword"))) {
+                    throw new Exception("Error: Password and Repassword must be the same!");
+                }
+                //check if the account if exist or not
+                if (daoCus.checkIdExist(request.getParameter("accountInput")) || request.getParameter("accountInput").equals("admin")
+                        || request.getParameter("accountInput").startsWith("emp")) {
+                    throw new Exception("Error: Invalid id!");
+                }
+                //check if the email is exist or not
+                if(daoCus.checkEmailExist(request.getParameter("email"))){
+                    throw new Exception("Error: The email has been existed! Try another one!");
+                }
+                return true;
+        }catch(Exception ex){
+            String error = ex.getMessage();
+            request.setAttribute("errorMessage", error);
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
+            return false;
+        }
+    }
 }
