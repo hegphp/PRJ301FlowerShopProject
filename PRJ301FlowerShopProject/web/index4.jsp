@@ -89,7 +89,7 @@
                     <h3 class="text-center mt-4 text-dark"><a class="h3 text-decoration-none" href="BouquetTypeController?id=${item.getBouquetTypeId()}">${item.getBouquetTypeName()}</a></h3>
                         <c:forEach items="${daoBouquet.getBouquetDisplayedListById(item.getBouquetTypeId())}" var="i" varStatus="status">
                             <c:if test="${count==0}">
-                            <div class="row">
+                            <div class="row mt-3">
                             </c:if>
                             <div class="col-md-3">
                                 <div class="card">
@@ -109,12 +109,16 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                            <c:if test="${count==3|| status.last}">
-                                <c:set value="0" var="count"></c:set>
-                                </div>
-                        </c:if>
-                        <c:set value="${count+1}" var="count"></c:set>
+                            </div>
+                            <c:choose>
+                                <c:when test="${count==3|| status.last}">
+                                    <c:set value="0" var="count"></c:set>
+                                    </div>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set value="${count+1}" var="count"></c:set>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </c:if>
             </c:forEach>

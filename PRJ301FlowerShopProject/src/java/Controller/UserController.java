@@ -188,17 +188,7 @@ public class UserController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", newCustomer);
 
-                DAOBouquet daoBouquet = new DAOBouquet();
-                //import bouquet type map
-                request.setAttribute("bouquetTypeMap", daoBouquetType.getBouquetTypeMap());
-                //import bouquet type list
-                request.setAttribute("bouquetTypeList", daoBouquetType.getBouquetTypeList());
-                //import Bouquet info
-                request.setAttribute("bouquetList", daoBouquet.getBouquetList());
-
-                request.setAttribute("daoBouquet", daoBouquet);
-
-                request.getRequestDispatcher("index2.jsp").forward(request, response);
+                response.sendRedirect("Homepage");
             } catch (SQLException ex) {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }

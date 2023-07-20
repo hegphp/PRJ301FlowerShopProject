@@ -68,12 +68,15 @@ public class BouquetTypeController extends HttpServlet {
         try {
             DAOBouquet daoBouquet = new DAOBouquet();
             DAOBouquetType daoType = new DAOBouquetType();
-            request.setAttribute("bouquetList", daoBouquet.getBouquetListByTypeId(Integer.parseInt(request.getParameter("id"))));
+            ArrayList list = daoBouquet.getBouquetListByTypeId(Integer.parseInt(request.getParameter("id")));
+            
 
             request.setAttribute("bouquetType", daoType.getBouquetTypeNameById(Integer.parseInt(request.getParameter("id"))));
             //import bouquet type list
             request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
             request.setAttribute("id", request.getParameter("id"));
+            
+            request.setAttribute("bouquetList", list);
 
             request.getRequestDispatcher("BouquetListByType.jsp").forward(request, response);
         } catch (SQLException ex) {

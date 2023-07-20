@@ -85,12 +85,18 @@ public class BouquetController extends HttpServlet {
                     return;
                 }
 
+                
+                
                 //import bouquet Type List
                 DAOBouquetType daoType = new DAOBouquetType();
                 request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
 
                 DAOBouquet daoBouquet = new DAOBouquet();
                 request.setAttribute("bouquetInfo", daoBouquet.getBouquetById(request.getParameter("id")));
+                
+                DAOBouquetType daoBouquetType = new DAOBouquetType();
+                request.setAttribute("daoBouquetType", daoBouquetType);
+                
                 request.getRequestDispatcher("BouquetInfo.jsp").forward(request, response);
             }
 
@@ -187,7 +193,10 @@ public class BouquetController extends HttpServlet {
                 }
                 newBouquet.setBouquetQuantity(Integer.parseInt(request.getParameter("bouquetQuantity")));
 
-                newBouquet.setDisplayed(request.getParameter("isDisplayed") != null);
+                if(request.getParameter("isDisplayed").equals("true"))
+                    newBouquet.setDisplayed(true);
+                else
+                    newBouquet.setDisplayed(false);
 
                 daoBouquet.updateBouquet(newBouquet, request.getParameter("bouquetId"));
                 //if admin want to delete bouquet
@@ -207,6 +216,7 @@ public class BouquetController extends HttpServlet {
                 newBouquet.setBouquetDesc(request.getParameter("bouquetDescription"));
                 newBouquet.setBouquetPrice(Float.parseFloat(request.getParameter("bouquetPrice")));
                 newBouquet.setBouquetDiscount(Float.parseFloat(request.getParameter("bouquetDiscount")));
+                
                 //check if the file is upload or not
                 if (request.getPart("fileInput") != null && request.getPart("fileInput").getSize() != 0) {
                     uploadFile(request, response, newBouquet);
@@ -301,6 +311,7 @@ public class BouquetController extends HttpServlet {
             saveInfomation(request, response);
             if(request.getParameter("add")!=null)
                 request.getRequestDispatcher("addBouquet.jsp").forward(request, response);
+            //update
             else{
                 request.setAttribute("bouquetInfo", daoBouquet.getBouquetById(request.getParameter("bouquetId")));
                 request.getRequestDispatcher("UpdateBouquet.jsp").forward(request, response);

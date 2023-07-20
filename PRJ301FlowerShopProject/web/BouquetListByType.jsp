@@ -83,15 +83,15 @@
 
         <div class="container">
             <c:set value="0" var="count"></c:set>
-                <h3 class="text-center mt-4 text-dark">${bouquetType}</h3>
-                <form class="form-inline" action="BouquetTypeController" method="post">
-                    <input type="hidden" value="${id}" name="id">
-                    <button type="submit" value="asc" name="order" class="btn btn-primary">Từ thấp lên cao</button>
-                    <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
-                </form>
-                    <c:if test="${bouquetList.isEmpty()}">
-                        <h3 class="h3 text-center" style="height: 50vh;">các sản phẩm ở đây chưa tồn tại, bạn vui lòng tìm kiếm sau nhé ^^</h3>
-                    </c:if>
+            <h3 class="text-center mt-4 text-dark">${bouquetType}</h3>
+            <form class="form-inline" action="BouquetTypeController" method="post">
+                <input type="hidden" value="${id}" name="id">
+                <button type="submit" value="asc" name="order" class="btn btn-primary">Từ thấp lên cao</button>
+                <button type="submit" value="desc" name="order" class="btn btn-primary">Từ cao xuống thấp</button>
+            </form>
+            <c:if test="${bouquetList.isEmpty()}">
+                <h3 class="h3 text-center" style="height: 50vh;">các sản phẩm ở đây chưa tồn tại, bạn vui lòng tìm kiếm sau nhé ^^</h3>
+            </c:if>
             <c:forEach items="${bouquetList}" var="i" varStatus="status">
                 <c:if test="${count==0}">
                     <div class="row mt-3">
@@ -115,11 +115,15 @@
                             </div>
                         </div>
                     </div>
-                    <c:set value="${count+1}" var="count"></c:set>
-                    <c:if test="${count==4|| status.last}">
-                        <c:set value="0" var="count"></c:set>
-                        </div>
-                </c:if>
+                    <c:choose>
+                        <c:when test="${count==3|| status.last}">
+                            <c:set value="0" var="count"></c:set>
+                            </div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set value="${count+1}" var="count"></c:set>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </div>
 

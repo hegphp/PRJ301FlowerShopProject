@@ -62,9 +62,10 @@ public class HomepageController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             HttpSession session = request.getSession(false);
             //check if user login or not
-            if (session==null||session.getAttribute("user") == null) {
+            if (session == null || session.getAttribute("user") == null) {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
                 //import bouquet Type list
@@ -76,12 +77,8 @@ public class HomepageController extends HttpServlet {
             } else {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
-                //import bouquet type map
-                request.setAttribute("bouquetTypeMap", daoType.getBouquetTypeMap());
                 //import bouquet type list
                 request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
-                //import Bouquet info
-                request.setAttribute("bouquetList", daoBouquet.getBouquetDisplayedList());
                 //import bouquetDAO
                 request.setAttribute("daoBouquet", daoBouquet);
 
@@ -105,9 +102,10 @@ public class HomepageController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+
             HttpSession session = request.getSession(false);
             //check if user login or not
-            if (session==null||session.getAttribute("user") == null) {
+            if (session == null || session.getAttribute("user") == null) {
                 DAOBouquetType daoType = new DAOBouquetType();
                 DAOBouquet daoBouquet = new DAOBouquet();
                 //import bouquet Type list
@@ -133,6 +131,8 @@ public class HomepageController extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

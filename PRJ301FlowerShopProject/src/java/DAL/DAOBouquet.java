@@ -5,6 +5,8 @@
 package DAL;
 
 import Model.Bouquet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -180,5 +182,40 @@ public class DAOBouquet extends DBContext {
             return true;
         }
         return false;
+    }
+    
+    public static ArrayList<Bouquet> getBouquetListByPage(ArrayList<Bouquet> list, HttpServletRequest request, HttpServletResponse response) {
+        //check if the size is exceed 8 or 
+        if (list.size() <= 8) {
+            return list;
+        } else {
+            try {
+                int page = Integer.parseInt(request.getParameter("page"));
+                int max = (int) Math.ceil((double) list.size() / 8);
+                request.setAttribute("totalPage", max);
+                //check if page is valid or not
+                if (page > max || page < 1) {
+                    page = 1;
+                    ArrayList<Bouquet> output = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        output.add(list.get(i));
+                    }
+                    return output;
+                } else {
+                    ArrayList<Bouquet> output = new ArrayList<>();
+                    for (int i = (page - 1) * 8; i < page * 8 - 1; i++) {
+                        output.add(list.get(i));
+                    }
+                    return output;
+                }
+            } catch (Exception ex) {
+                System.out.println("PageController-err");
+                return null;
+            }
+        }
+    }
+    
+    public int getTotalPageNumber(ArrayList<Bouquet> list){
+        return (int) Math.ceil((double) list.size() / 8);
     }
 }
