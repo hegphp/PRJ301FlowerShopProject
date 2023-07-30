@@ -52,6 +52,10 @@
         <servlet-name>AdminController</servlet-name>
         <servlet-class>Controller.AdminController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestController</servlet-name>
+        <servlet-class>.TestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>AdminController</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestController</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

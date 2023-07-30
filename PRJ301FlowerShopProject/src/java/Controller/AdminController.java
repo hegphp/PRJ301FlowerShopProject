@@ -89,10 +89,32 @@ public class AdminController extends HttpServlet {
             request.setAttribute("bouquetTypeMap", daoBouquetType.getBouquetTypeMap());
             //import Bouquet info
             request.setAttribute("bouquetList", daoBouquet.getBouquetList());
+
+            //if admin want to sort by Name
+            if (request.getParameter("sortValue") != null) {
+                //check if admin chose sort in asc or not
+                if (request.getParameter("sortValue").equals("0")) {
+                    request.setAttribute("bouquetList", SortBouquetByCate.sortName(daoBouquet.getBouquetList(), 0));
+                    request.setAttribute("test", 0);
+                } else if (request.getParameter("sortValue").equals("1")) {
+                    request.setAttribute("bouquetList", SortBouquetByCate.sortName(daoBouquet.getBouquetList(), 1));
+                    request.setAttribute("test", 1);
+                }
+            }
+
             //import Employee info
             request.setAttribute("empList", daoEmp.getEmployeeList());
 
             doSort(request, response);
+            
+            //nhay ve before
+            if(request.getParameter("before")!=null){
+                DAOBouquetType daoType = new DAOBouquetType();
+                request.setAttribute("bouquetTypeList", daoType.getBouquetTypeList());
+                request.setAttribute("daoBouquet", daoBouquet);
+                request.getRequestDispatcher("before.jsp").forward(request, response);
+                return;
+            }
 
             request.getRequestDispatcher("index3.jsp").forward(request, response);
         } catch (SQLException ex) {

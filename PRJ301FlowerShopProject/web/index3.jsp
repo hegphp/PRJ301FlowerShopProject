@@ -69,6 +69,29 @@
                     </button>
                 </div>
             </form>
+            <form action="admin" id="form">
+                <form action="admin">
+                    <select name="sortValue" onchange="submit()">
+                        <c:choose>
+                            <c:when test="${test==0}">
+                                <option>Lựa chọn sắp xếp</option>
+                                <option value="0" selected>Sắp xếp từ A-Z</option>
+                                <option value="1">Sắp xếp từ Z-A</option>
+                            </c:when>
+                            <c:when test="${test==1}">
+                                <option>Lựa chọn sắp xếp</option>
+                                <option value="0">Sắp xếp từ A-Z</option>
+                                <option value="1" selected>Sắp xếp từ Z-A</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option selected>Lựa chọn sắp xếp</option>
+                                <option value="0">Sắp xếp từ A-Z</option>
+                                <option value="1">Sắp xếp từ Z-A</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </select>   
+                </form>
+            </form>
             <!--display Bouquet List-->
             <form id="bouquetForm" action="BouquetController" method="post">
                 <table class="table" id="adminTable" data-toggle="table">
@@ -122,6 +145,6 @@
                 form.submit();
             }
         </script>
-        
+
     </body>
 </html>
